@@ -21,6 +21,7 @@
 		CB4AD06C196C265B00D2D773 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4AD04E196C265B00D2D773 /* UIKit.framework */; };
 		CB4AD074196C265B00D2D773 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB4AD072196C265B00D2D773 /* InfoPlist.strings */; };
 		CB4AD076196C265B00D2D773 /* BTBeatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4AD075196C265B00D2D773 /* BTBeatTests.m */; };
+		CB4AD081196C267C00D2D773 /* BTBeat.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4AD080196C267C00D2D773 /* BTBeat.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		CB4AD071196C265B00D2D773 /* BTBeatTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BTBeatTests-Info.plist"; sourceTree = "<group>"; };
 		CB4AD073196C265B00D2D773 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CB4AD075196C265B00D2D773 /* BTBeatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTBeatTests.m; sourceTree = "<group>"; };
+		CB4AD07F196C267C00D2D773 /* BTBeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTBeat.h; sourceTree = "<group>"; };
+		CB4AD080196C267C00D2D773 /* BTBeat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTBeat.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,8 @@
 				CB4AD060196C265B00D2D773 /* ViewController.m */,
 				CB4AD062196C265B00D2D773 /* Images.xcassets */,
 				CB4AD051196C265B00D2D773 /* Supporting Files */,
+				CB4AD07F196C267C00D2D773 /* BTBeat.h */,
+				CB4AD080196C267C00D2D773 /* BTBeat.m */,
 			);
 			path = BTBeat;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB4AD061196C265B00D2D773 /* ViewController.m in Sources */,
+				CB4AD081196C267C00D2D773 /* BTBeat.m in Sources */,
 				CB4AD05B196C265B00D2D773 /* AppDelegate.m in Sources */,
 				CB4AD057196C265B00D2D773 /* main.m in Sources */,
 			);
