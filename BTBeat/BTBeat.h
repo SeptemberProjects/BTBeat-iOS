@@ -10,7 +10,8 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <sys/utsname.h>
 
-#define BTBEAT_HOST @"http://fromdingo.com/btbeat/"
+#define BTBEAT_HOST @"https://fromdingo.com/btbeat/api/"
+//#define BTBEAT_HOST @"http://localhost:3000/"
 
 //list of fixed events events
 #define BTBEAT_EVENT_BT_UNSUPPORTED @"BT_UNSUPPORTED"

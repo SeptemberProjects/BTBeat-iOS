@@ -27,4 +27,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)event1ButtonPressed:(id)sender
+{
+    [[BTBeat sharedInstance] addEvent:BTBEAT_EVENT_BT_AUTHORISATION_REQUEST_SENT];
+}
+
+- (void)event2ButtonPressed:(id)sender
+{
+    [[BTBeat sharedInstance] addEvent:BTBEAT_EVENT_NOTIFICATION_SENT];
+}
+
+- (void)event3ButtonPressed:(id)sender
+{
+    [[BTBeat sharedInstance] addEvent:BTBEAT_EVENT_NOTIFICATION_CONVERSION];
+}
+
+- (void)sendButtonPressed:(id)sender
+{
+    [[BTBeat sharedInstance] sendData];
+}
+
 @end

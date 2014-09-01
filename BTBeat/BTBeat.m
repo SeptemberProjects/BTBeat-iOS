@@ -51,6 +51,8 @@ static BTBeat *sharedInstance;
         } else {
             self.allowAutomaticEvents = NO;
         }
+        
+        self.sendDataAutomatically = YES;
     }
     
     return self;
@@ -66,6 +68,8 @@ static BTBeat *sharedInstance;
     NSString *uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     
     [self.localStateDictionary setValue:uuid forKey:@"uuid"];
+    
+    [self saveToLocalFile];
 }
 
 - (void)generateInitialData
@@ -76,6 +80,8 @@ static BTBeat *sharedInstance;
     [self.localDataDictionary setObject:@{@"model": deviceModel, @"locale": locale} forKey:@"initial-data"];
     
     [self.localStateDictionary setObject:@YES forKey:@"initialDataGenerated"];
+    
+    [self saveToLocalFile];
 }
 
 - (void)sendData
@@ -84,7 +90,7 @@ static BTBeat *sharedInstance;
     [self.localDataDictionary setObject:[self protocolVersion] forKey:@"version"];
     [self.localDataDictionary setObject:self.localStateDictionary[@"uuid"] forKey:@"uuid"];
     
-    NSData *serializedData = [NSJSONSerialization dataWithJSONObject:self.localDataDictionary options:0 error:nil];
+    NSData *serializedData = [NSJSONSerialization dataWithJSONObject:@{@"beat": self.localDataDictionary} options:0 error:nil];
     
     //send data
     [self sendDataWithJSON:serializedData];
@@ -103,8 +109,14 @@ static BTBeat *sharedInstance;
     [self.localDataDictionary setObject:events forKey:@"events"];
     
     if (self.sendDataAutomatically) {
+        NSDate *lastSend = [self.localStateDictionary objectForKey:@"last_send"];
         
+        if (lastSend == nil || [[NSDate date] timeIntervalSinceDate:lastSend] > 3600) {
+            [self sendData];
+        }
     }
+    
+    [self saveToLocalFile];
 }
 
 - (void)setAllowAutomaticEvents:(BOOL)allowAutomaticEvents
@@ -217,8 +229,9 @@ static BTBeat *sharedInstance;
 
 - (void)sendDataWithJSON:(NSData *)json
 {
-    NSString *urlString = [NSString stringWithFormat:@"%@data?user_uid=%@", BTBEAT_HOST, self.localStateDictionary[@"uuid"]];
+    NSString *urlString = [NSString stringWithFormat:@"%@beats", BTBEAT_HOST];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.HTTPMethod = @"POST";
     request.HTTPBody = json;
     
@@ -228,20 +241,10 @@ static BTBeat *sharedInstance;
                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                 dispatch_async(dispatch_get_main_queue(), ^{
                                                     if (error == nil) {
-                                                        if ([response.MIMEType isEqualToString:@"application/json"]) {
-                                                            if (data) {
-                                                                NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                                
-                                                                if ([jsonData[@"status"] isEqualToString:@"ok"]) {
-                                                                    [self.localStateDictionary setValue:[NSDate date] forKey:@"last_send"];
-                                                                    [self.localDataDictionary removeAllObjects];
-                                                                    [self saveToLocalFile];
-                                                                }
-                                                            } else {
-                                                                NSLog(@"Empty data");
-                                                            }
-                                                        } else {
-                                                            NSLog(@"Wrong mime type");
+                                                        if (((NSHTTPURLResponse *)response).statusCode == 201) {
+                                                            [self.localStateDictionary setValue:[NSDate date] forKey:@"last_send"];
+                                                            [self.localDataDictionary removeAllObjects];
+                                                            [self saveToLocalFile];
                                                         }
                                                     } else {
                                                         NSLog(@"Error: %@", error);
