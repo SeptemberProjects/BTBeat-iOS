@@ -13,7 +13,7 @@ To add BTBeat to your application add **BTBeat.h** and **BTBeat.m** to your proj
 
  Application identifier.
 
- ## Events
+## Events
  
 ```
 @property BOOL allowAutomaticEvents;
@@ -37,7 +37,7 @@ Automatically check if BlueTooth is turned on and off. Default value is **YES**.
 
 *BTBEAT_EVENT_BT_TURNED_ON*, *BTBEAT_EVENT_BT_TURNED_OFF*, *BTBEAT_EVENT_BT_UNSUPPORTED* and *BTBEAT_EVENT_BT_UNAUTHORISED*  are added automatically if *allowAutomaticEvents* is set to **YES**.
 
- ## Interaction with server
+## Interaction with server
 
 ```
  @property BOOL sendDataAutomatically;
